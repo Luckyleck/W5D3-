@@ -5,22 +5,22 @@ DROP TABLE IF EXISTS question_likes;
 CREATE TABLE question_likes (
   id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
-  og_question INTEGER NOT NULL,
+  question_id INTEGER NOT NULL,
 
   FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (og_question) REFERENCES questions(id)
+  FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
 DROP TABLE IF EXISTS replies;
 
 CREATE TABLE replies (
   id INTEGER PRIMARY KEY,
-  og_question INTEGER NOT NULL,
+  question_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   parent INTEGER,
   body TEXT NOT NULL,
 
-  FOREIGN KEY (og_question) REFERENCES questions(id),
+  FOREIGN KEY (question_id) REFERENCES questions(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (parent) REFERENCES replies(id)
 );
@@ -83,7 +83,7 @@ VALUES
   (6, 4); -- Alvin Zablan
 
 INSERT INTO
-  replies (og_question, user_id, parent, body)
+  replies (question_id, user_id, parent, body)
 VALUES
   (1, 6, NULL, 'Bunny goes around the hole'), -- Top reply to how to tie shoe from Alvin
   (1, 5, 1, 'Thanks, got it, bro'),
@@ -92,7 +92,7 @@ VALUES
   (4, 4, 4, 'yes.');
 
 INSERT INTO
-  question_likes (user_id, og_question)
+  question_likes (user_id, question_id)
 VALUES
   (1, 1),
   (2, 1),
